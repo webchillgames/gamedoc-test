@@ -12,6 +12,13 @@ import MainHeader from '@/components/MainHeader.vue'
 <style lang="css">
 @import '@/styles/variables.css';
 
+#app,
+body,
+html,
+.app {
+  height: 100%;
+}
+
 body {
   background-color: var(--dark);
   font-family: var(--font-family);

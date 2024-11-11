@@ -1,109 +1,62 @@
 <script lang="ts" setup>
 import AppButton from '@/elements/AppButton.vue'
 import { ref } from 'vue'
+import CModal from './CModal.vue'
 
-const open = ref(true)
+// type InputType = 'login' || 'registration' -- как писать?
+const state = ref('registration')
+
+const open = ref(true) //где хранить?
 </script>
 
 <template>
   <Teleport to="body">
-    <Transition name="modal">
-      <div v-if="open" class="auth">
-        <div class="auth__content">
-          <AppButton class="auth__modal-closer"></AppButton>
-          <h2>Вход в ваш аккаунт</h2>
+    <!-- <Transition name="modal"> -->
+    <CModal v-if="open" class="auth">
+      <template v-slot:title>Вход в ваш аккаунт</template>
+      <template v-slot:form>
+        <form v-show="state === 'login'">
+          <label>Email</label>
+          <input type="email" placeholder="Введите значение" />
 
-          <form>
-            <label>Email</label>
+          <label>Пароль</label>
+          <input type="text" placeholder="Введите пароль" />
 
-            <input type="email" placeholder="Введите значение" />
-
-            <label>Пароль</label>
-
-            <input type="text" placeholder="Введите пароль" />
-
-            <div class="auth__controls">
-              <div class="auth__form-changer">
-                <span> У вас нет аккаунта?</span>
-                <AppButton>Зарегистрируйтесь</AppButton>
-              </div>
-              <AppButton class="accent-button">Войдите</AppButton>
+          <div class="auth__controls">
+            <div class="auth__form-changer">
+              <span> У вас нет аккаунта?</span>
+              <AppButton>Зарегистрируйтесь</AppButton>
             </div>
+            <AppButton class="accent-button">Войти</AppButton>
+          </div>
+          <div class="auth__error-msg">Пользователь с таким логином не найден</div>
+        </form>
 
-            <div class="auth__controls">
-              <div class="auth__form-changer">
-                <span> У вас есть аккаунт?</span>
-                <AppButton>Войдите</AppButton>
-              </div>
-              <AppButton class="accent-button">Зарегистрироваться</AppButton>
+        <form v-show="state === 'registration'">
+          <label>Email</label>
+          <input type="email" placeholder="Введите значение" />
+
+          <label>Пароль</label>
+          <input type="text" placeholder="Введите пароль" />
+
+          <label>Пароль ещё раз</label>
+          <input type="text" placeholder="Введите пароль" />
+
+          <div class="auth__controls">
+            <div class="auth__form-changer">
+              <span> У вас есть аккаунт?</span>
+              <AppButton>Войдите</AppButton>
             </div>
-            <div class="auth__error-msg">Пользователь с таким логином не найден</div>
-          </form>
-        </div>
-      </div>
-    </Transition>
+            <AppButton class="accent-button">Зарегистрироваться</AppButton>
+          </div>
+        </form>
+      </template>
+    </CModal>
+    <!-- </Transition> -->
   </Teleport>
 </template>
 
 <style lang="css">
-.auth {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.auth__modal-closer {
-  border-radius: 32px;
-  padding: 0px 24px;
-  width: 56px;
-  height: 56px;
-  background-color: var(--green-light);
-  display: block;
-  background-image: url('@/assets/cross-icon.svg');
-  background-repeat: no-repeat;
-  background-size: 16px 16px;
-  background-position: center;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-.auth__content {
-  background-color: var(--dark-middle);
-  padding: 80px;
-  border-radius: 40px;
-  position: relative;
-}
-
-.auth h2 {
-  font-weight: 600;
-  font-size: 48px;
-  line-height: 150%;
-  margin: 0;
-  margin-bottom: 40px;
-}
-
-.auth input {
-  border-radius: 36px;
-  padding: 0px 16px;
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  height: 72px;
-  margin-top: 8px;
-  margin-bottom: 24px;
-}
-
-.auth label {
-  color: var(--gray);
-  padding-left: 24px;
-}
-
 .auth__controls {
   display: flex;
   justify-content: space-between;
@@ -124,7 +77,15 @@ const open = ref(true)
   font-weight: 700;
 }
 
-.modal-enter-from {
+.auth__error-msg {
+  margin-top: 20px;
+  background-color: rgba(255, 116, 97, 0.1);
+  color: var(--error);
+  border-radius: 24px;
+  padding: 8px 20px;
+}
+
+/* .modal-enter-from {
   opacity: 0;
 }
 
@@ -136,5 +97,5 @@ const open = ref(true)
 .modal-leave-to .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-}
+} */
 </style>
