@@ -2,16 +2,24 @@
 import AppButton from '@/elements/AppButton.vue'
 import AppLogo from '@/elements/AppLogo.vue'
 import CAuth from './CAuth.vue'
+import { ref } from 'vue'
+const showModal = ref(true)
 </script>
 
 <template>
   <div class="main-header">
     <AppLogo />
-    <AppButton class="main-header__exit-button accent-button">
-      <span class="main-header__exit-icon"></span>
+    <AppButton @click="showModal = true" class="main-header__auth-button accent-button">
+      <span class="main-header__auth-icon"></span>
       Вход
     </AppButton>
-    <CAuth />
+
+    <AppButton class="main-header__profile-button">
+      e-mail@mail.mail
+      <span></span>
+    </AppButton>
+
+    <CAuth v-model="showModal" @close="showModal = false" />
   </div>
 </template>
 
@@ -23,18 +31,39 @@ import CAuth from './CAuth.vue'
   padding: 40px 0;
 }
 
-.main-header__exit-icon {
+.main-header__auth-icon {
   width: 32px;
   height: 32px;
   display: block;
-  background-image: url('@/assets/exit-icon.svg');
+  background-image: url('@/assets/auth-icon.svg');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: 0 0;
   margin-right: 12px;
 }
 
-.main-header__exit-button {
+.main-header__profile-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  color: var(--white);
+}
+
+.main-header__profile-button span {
+  margin-left: 12px;
+  width: 56px;
+  height: 56px;
+  display: block;
+  background-image: url('@/assets/user-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 20px 28px;
+  background-position: center;
+  border-radius: 50%;
+  background-color: var(--dark-middle);
+}
+
+.main-header__auth-button {
   margin-left: 22px;
 }
 

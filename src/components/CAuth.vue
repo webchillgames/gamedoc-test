@@ -1,62 +1,37 @@
 <script lang="ts" setup>
-import AppButton from '@/elements/AppButton.vue'
 import { ref } from 'vue'
 import CModal from './CModal.vue'
+import CLoginForm from './CLoginForm.vue'
+import CRegForm from './CRegForm.vue'
 
 // type InputType = 'login' || 'registration' -- как писать?
-const state = ref('registration')
-
-const open = ref(true) //где хранить?
+const state = ref('login')
 </script>
 
 <template>
-  <Teleport to="body">
-    <!-- <Transition name="modal"> -->
-    <CModal v-if="open" class="auth">
-      <template v-slot:title>Вход в ваш аккаунт</template>
-      <template v-slot:form>
-        <form v-show="state === 'login'">
-          <label>Email</label>
-          <input type="email" placeholder="Введите значение" />
+  <CModal class="auth">
+    <template v-slot:title>
+      {{ state === 'login' ? 'Вход в ваш аккаунт' : 'Регистрация' }}
+    </template>
 
-          <label>Пароль</label>
-          <input type="text" placeholder="Введите пароль" />
-
-          <div class="auth__controls">
-            <div class="auth__form-changer">
-              <span> У вас нет аккаунта?</span>
-              <AppButton>Зарегистрируйтесь</AppButton>
-            </div>
-            <AppButton class="accent-button">Войти</AppButton>
-          </div>
-          <div class="auth__error-msg">Пользователь с таким логином не найден</div>
-        </form>
-
-        <form v-show="state === 'registration'">
-          <label>Email</label>
-          <input type="email" placeholder="Введите значение" />
-
-          <label>Пароль</label>
-          <input type="text" placeholder="Введите пароль" />
-
-          <label>Пароль ещё раз</label>
-          <input type="text" placeholder="Введите пароль" />
-
-          <div class="auth__controls">
-            <div class="auth__form-changer">
-              <span> У вас есть аккаунт?</span>
-              <AppButton>Войдите</AppButton>
-            </div>
-            <AppButton class="accent-button">Зарегистрироваться</AppButton>
-          </div>
-        </form>
-      </template>
-    </CModal>
-    <!-- </Transition> -->
-  </Teleport>
+    <template v-slot:form>
+      <CLoginForm v-if="state === 'login'" @showRegForm="state = 'registration'" />
+      <CRegForm v-show="state === 'registration'" @showLoginForm="state = 'login'" />
+    </template>
+  </CModal>
 </template>
 
 <style lang="css">
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .auth__controls {
   display: flex;
   justify-content: space-between;

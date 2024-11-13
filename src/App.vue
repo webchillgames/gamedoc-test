@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import MainHeader from '@/components/MainHeader.vue'
+import { ModalsContainer } from 'vue-final-modal'
 </script>
 
 <template>
   <div class="app">
     <MainHeader />
     <RouterView />
+    <ModalsContainer />
   </div>
 </template>
 
@@ -35,7 +37,6 @@ body {
   margin: 0 auto;
 }
 
-/* где хранить? */
 .accent-button {
   border-radius: 32px;
   padding: 12px 24px;
@@ -47,5 +48,27 @@ body {
   background-color: var(--green-light);
   border: 0;
   color: var(--white);
+}
+
+.accent-button:disabled {
+  opacity: 0.4;
+}
+
+@media (max-width: 1366px) {
+  .app {
+    max-width: 1205px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    max-width: 688px;
+  }
+}
+
+@media (max-width: 360px) {
+  .app {
+    max-width: 320px;
+  }
 }
 </style>

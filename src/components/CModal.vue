@@ -1,16 +1,24 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import AppButton from '@/elements/AppButton.vue'
+import { defineEmits } from 'vue'
+import { VueFinalModal } from 'vue-final-modal'
+defineEmits(['close'])
+</script>
 
 <template>
-  <div class="modal">
-    <div class="modal__overlay"></div>
+  <VueFinalModal class="modal">
+    <div @click="$emit('close')" class="modal__overlay"></div>
+
     <div class="modal__content">
       <h2>
         <slot name="title"></slot>
       </h2>
-      <AppButton class="modal__closer"></AppButton>
+
+      <AppButton @click="$emit('close')" class="modal__closer"></AppButton>
+
       <slot name="form"></slot>
     </div>
-  </div>
+  </VueFinalModal>
 </template>
 
 <style lang="css">
@@ -67,12 +75,16 @@
 }
 
 .modal input {
+  height: 72px;
+}
+
+.modal input,
+.modal textarea {
   border-radius: 36px;
-  padding: 0px 16px;
+  padding: 24px 16px;
   display: flex;
   width: 100%;
   box-sizing: border-box;
-  height: 72px;
   margin-top: 8px;
   margin-bottom: 24px;
 }

@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import CNote from '@/components/CNote.vue'
+import CNoteEditor from '@/components/CNoteEditor.vue'
 import AppButton from '@/elements/AppButton.vue'
+
+import { ref } from 'vue'
+
+const showModal = ref(false)
 </script>
 
 <template>
@@ -8,7 +13,8 @@ import AppButton from '@/elements/AppButton.vue'
     <div class="profile__notes-grid">
       <CNote v-for="i in 5" :key="i" />
     </div>
-    <AppButton class="profile__opener-btn accent-button"> </AppButton>
+    <AppButton @click="showModal = true" class="profile__opener-btn accent-button"> </AppButton>
+    <CNoteEditor v-model="showModal" @close="showModal = false" />
   </div>
 </template>
 
