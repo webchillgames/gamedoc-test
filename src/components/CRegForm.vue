@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppButton from '@/elements/AppButton.vue'
 import { auth } from '@/services/auth'
-import { ref, defineEmits } from 'vue'
+import { ref } from 'vue'
 import { required, email, minLength } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 
@@ -26,16 +26,16 @@ const rules = {
 const v$ = useVuelidate(rules, state)
 
 function onSubmit() {
-  if (v$.value.$invalid || _password.value !== _password_repeat.value) {
+  if (v$.value.$invalid || v$.value.password.$model !== v$.value.password_repeat.$model) {
     return
   }
 
-  auth.register(_email.value, _password.value, _password_repeat.value)
+  auth.register(v$.value.email.$model, v$.value.password.$model, v$.value.password_repeat.$model)
 }
 </script>
 
 <template>
-  <form @submit="onSubmit">
+  <form @submit.prevent="onSubmit">
     <label>Email</label>
     <input type="email" placeholder="Введите значение" v-model="v$.email.$model" />
 

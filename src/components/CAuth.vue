@@ -1,22 +1,26 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import CModal from './CModal.vue'
 import CLoginForm from './CLoginForm.vue'
 import CRegForm from './CRegForm.vue'
-
-// type InputType = 'login' || 'registration' -- как писать?
-const state = ref('login')
 </script>
 
 <template>
   <CModal class="auth">
     <template v-slot:title>
-      {{ state === 'login' ? 'Вход в ваш аккаунт' : 'Регистрация' }}
+      {{
+        $route.query.auth && $route.query.auth === 'login' ? 'Вход в ваш аккаунт' : 'Регистрация'
+      }}
     </template>
 
     <template v-slot:form>
-      <CLoginForm v-if="state === 'login'" @showRegForm="state = 'registration'" />
-      <CRegForm v-show="state === 'registration'" @showLoginForm="state = 'login'" />
+      <CLoginForm
+        v-show="$route.query.auth === 'login'"
+        @showRegForm="$router.replace({ query: { auth: 'registration' } })"
+      />
+      <CRegForm
+        v-show="$route.query.auth === 'registration'"
+        @showLoginForm="$router.push({ query: { auth: 'login' } })"
+      />
     </template>
   </CModal>
 </template>
@@ -36,7 +40,7 @@ const state = ref('login')
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: gray;
+  color: grey;
 }
 
 .auth__form-changer {

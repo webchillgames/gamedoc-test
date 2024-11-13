@@ -1,16 +1,29 @@
 <script lang="ts" setup>
 import AppButton from '@/elements/AppButton.vue'
+import { type Note } from '../views/VProfile.vue'
+import { notes } from '@/services/notes'
+
+defineProps<{ note: Note }>()
+const emit = defineEmits(['updateNotes'])
+
+async function removeNote(id: number) {
+  try {
+    await notes.remove(id)
+    emit('updateNotes')
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <template>
   <div class="note">
-    <h4>Пример заголовока заметки в две строчки</h4>
+    <h4>{{ note.title }}</h4>
     <p>
-      А также явные признаки победы институционализации могут быть объединены в целые кластеры себе
-      подобных.
+      {{ note.content }}
     </p>
     <div class="note__bottom">
-      <AppButton class="note__button-closer">
+      <AppButton @click="() => removeNote(note.id)" class="note__button-closer">
         <span class="note__cross-icon"></span>
         Удалить
       </AppButton>

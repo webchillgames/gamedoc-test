@@ -1,25 +1,65 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { storage } from '@/services/storage'
+
 import AppButton from '@/elements/AppButton.vue'
 import AppLogo from '@/elements/AppLogo.vue'
 import CAuth from './CAuth.vue'
-import { ref } from 'vue'
-const showModal = ref(true)
+import CExitModal from './CExitModal.vue'
+import { auth } from '@/services/auth'
+
+const router = useRouter()
+const route = useRoute()
+
+const isModalIntranceVisible = ref(!!route.query.auth)
+const isModalExitVisible = ref(false)
+
+const user = ref(storage.get('userProfile'))
+
+function onEntranceClick() {
+  router.push({ query: { auth: 'login' } })
+  // isModalIntranceVisible.value = true
+}
+
+async function onExitClick() {
+  try {
+    await auth.exit()
+    isModalExitVisible.value = false
+    router.push({ name: 'home' })
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <template>
   <div class="main-header">
     <AppLogo />
-    <AppButton @click="showModal = true" class="main-header__auth-button accent-button">
+
+    <div v-if="user" class="main-header__exit-modal-wrapper">
+      <AppButton
+        @click="isModalExitVisible = !isModalExitVisible"
+        class="main-header__profile-button"
+      >
+        {{ user.email }}
+        <span></span>
+      </AppButton>
+      <Transition>
+        <CExitModal
+          v-show="isModalExitVisible"
+          @click="onExitClick"
+          class="main-header__exit-modal"
+        />
+      </Transition>
+    </div>
+
+    <AppButton v-else @click="onEntranceClick" class="main-header__auth-button accent-button">
       <span class="main-header__auth-icon"></span>
       Вход
     </AppButton>
 
-    <AppButton class="main-header__profile-button">
-      e-mail@mail.mail
-      <span></span>
-    </AppButton>
-
-    <CAuth v-model="showModal" @close="showModal = false" />
+    <CAuth v-model="isModalIntranceVisible" @close="isModalIntranceVisible = false" />
   </div>
 </template>
 
@@ -65,6 +105,16 @@ const showModal = ref(true)
 
 .main-header__auth-button {
   margin-left: 22px;
+}
+
+.main-header__exit-modal-wrapper {
+  position: relative;
+}
+
+.main-header__exit-modal {
+  bottom: -20px;
+  right: 0;
+  transform: translate(0, 100%);
 }
 
 @media (max-width: 1366px) {

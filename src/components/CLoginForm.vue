@@ -1,14 +1,16 @@
 <script lang="ts" setup>
 import AppButton from '@/elements/AppButton.vue'
-import { ref, defineEmits } from 'vue'
+
+import { ref } from 'vue'
 import { auth } from '../services/auth'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
 
 defineEmits(['showRegForm'])
 
-const _email = ref('')
-const _password = ref('')
+const _email = ref('rtyu@ghj.cow')
+const _password = ref('1234')
+const _error_messages = ref([])
 
 const state = ref({
   email: _email.value,
@@ -19,19 +21,27 @@ const rules = {
   email: { required, email },
   password: { required, minLength: minLength(4) },
 }
+
 const v$ = useVuelidate(rules, state)
 
-function onSubmit() {
+async function onSubmit() {
   if (v$.value.$invalid) {
     return
   }
-  auth.login(_email.value, _password.value)
+
+  try {
+    await auth.login(v$.value.email.$model, v$.value.password.$model)
+    await auth.getUserInfo()
+  } catch (error) {
+    _error_messages.value = error.response.data.message
+  }
 }
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
     <label>Email</label>
+
     <input type="email" placeholder="Введите значение" v-model="v$.email.$model" />
 
     <label>Пароль</label>
@@ -44,7 +54,11 @@ function onSubmit() {
       </div>
       <AppButton type="submit" class="accent-button" :disabled="v$.$invalid">Войти</AppButton>
     </div>
-    <!-- <div class="auth__error-msg">Пользователь с таким логином не найден</div> -->
+    <Transition>
+      <div v-show="_error_messages.length" class="auth__error-msg">
+        {{ _error_messages }}
+      </div>
+    </Transition>
   </form>
 </template>
 

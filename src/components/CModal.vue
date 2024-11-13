@@ -1,46 +1,34 @@
 <script lang="ts" setup>
 import AppButton from '@/elements/AppButton.vue'
-import { defineEmits } from 'vue'
 import { VueFinalModal } from 'vue-final-modal'
 defineEmits(['close'])
 </script>
 
 <template>
-  <VueFinalModal class="modal">
-    <div @click="$emit('close')" class="modal__overlay"></div>
+  <VueFinalModal
+    class="modal"
+    content-transition="vfm-fade"
+    overlay-transition="vfm-fade"
+    overlayClass="modal__overlay"
+  >
+    <div class="modal__wrapper">
+      <div class="modal__content">
+        <h2>
+          <slot name="title"></slot>
+        </h2>
 
-    <div class="modal__content">
-      <h2>
-        <slot name="title"></slot>
-      </h2>
+        <AppButton @click="$emit('close')" class="modal__closer"></AppButton>
 
-      <AppButton @click="$emit('close')" class="modal__closer"></AppButton>
-
-      <slot name="form"></slot>
+        <slot name="form"></slot>
+      </div>
     </div>
   </VueFinalModal>
 </template>
 
 <style lang="css">
-.modal {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 .modal__overlay {
   background: var(--dark);
   opacity: 0.7;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .modal__closer {
@@ -57,13 +45,6 @@ defineEmits(['close'])
   position: absolute;
   top: 20px;
   right: 20px;
-}
-
-.modal__content {
-  background-color: var(--dark-middle);
-  padding: 80px;
-  border-radius: 40px;
-  position: relative;
 }
 
 .modal h2 {
@@ -94,7 +75,44 @@ defineEmits(['close'])
 }
 
 .modal label {
-  color: var(--gray);
+  color: var(--grey);
   padding-left: 24px;
+}
+
+.modal__wrapper {
+  overflow: auto;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+}
+
+.modal__content {
+  background-color: var(--dark-middle);
+  padding: 80px;
+  border-radius: 40px;
+  max-width: 780px;
+  margin: 130px auto;
+  position: relative;
+}
+
+@media (max-width: 1366px) {
+  .modal__content {
+    max-width: 594px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal__content {
+    max-width: 688px;
+  }
+}
+
+@media (max-width: 360px) {
+  .modal__content {
+    max-width: 100%;
+  }
 }
 </style>

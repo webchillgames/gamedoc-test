@@ -10,8 +10,8 @@
   width: 219px;
   display: block;
   background-color: var(--green-light);
-  -webkit-mask-image: url('@/assets/icons.svg');
-  mask-image: url('@/assets/icons.svg');
+  -webkit-mask-image: url('@/assets/logo.svg');
+  mask-image: url('@/assets/logo.svg');
   mask-size: cover;
 }
 

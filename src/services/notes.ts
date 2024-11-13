@@ -5,16 +5,19 @@ interface INoteService {
 class NoteService implements INoteService {
   constructor(private http: IHTTPService) {}
   async create(title: string, content: string) {
-    try {
-      const response = await this.http.post('', {
-        title,
-        content,
-      })
-      console.log(response)
-    } catch (e) {
-      console.log(e)
-    }
+    return this.http.post('/api/notes', {
+      title,
+      content,
+    })
+  }
+
+  async get() {
+    return this.http.get('/api/notes')
+  }
+
+  async remove(id: number) {
+    return this.http.delete('/api/notes/' + id, null)
   }
 }
 
-export const note = new NoteService(httpService)
+export const notes = new NoteService(httpService)

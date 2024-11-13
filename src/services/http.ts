@@ -1,56 +1,54 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios'
+import { storage, type IStorageService } from './storage'
+
+const API_URL = 'https://dist.nd.ru'
 
 const axiosInstance = axios.create({
   baseURL: ``,
-  headers: {
-    Authorization: 'Bearer {token}',
-  },
 })
 
-const apiUrl = 'https://dist.nd.ru'
-
-interface IUser {
-  token: string
+export interface IUserToken {
+  accessToken: string
 }
 
 export interface IHTTPService {
-  setUser(user: IUser): void
-  get(path: string): Promise<AxiosResponse<unknown, unknown>>
-  post(
+  setUser(user: IUserToken): void
+  get<T>(path: string): Promise<AxiosResponse<T, unknown>>
+  post<T>(
     path: string,
     data: unknown,
     options?: AxiosRequestConfig<unknown> | undefined,
-  ): Promise<AxiosResponse<unknown, unknown>>
-  put(
+  ): Promise<AxiosResponse<T, unknown>>
+  put<T>(
     path: string,
     data: unknown,
     options?: AxiosRequestConfig<unknown> | undefined,
-  ): Promise<AxiosResponse<unknown, unknown>>
-  delete(
+  ): Promise<AxiosResponse<T, unknown>>
+  delete<T>(
     path: string,
     data: unknown,
     options?: AxiosRequestConfig<unknown> | undefined,
-  ): Promise<AxiosResponse<unknown, unknown>>
+  ): Promise<AxiosResponse<T, unknown>>
 }
 
 class HTTPService implements IHTTPService {
-  private user: IUser | null
+  private userToken: IUserToken | null
 
   constructor(
-    private http: AxiosInstance,
     private baseUrl: string,
+    private http: AxiosInstance,
+    private storage: IStorageService,
   ) {
-    const savedUser = localStorage.getItem('user')
-    this.user = savedUser ? JSON.parse(savedUser) : null
+    this.userToken = this.storage.get<IUserToken>('userToken')
   }
 
   private get authorization() {
-    const token = this.user ? this.user.token : ''
+    const token = this.userToken ? this.userToken.accessToken : ''
 
-    return !this.user ? {} : { Authorization: 'Bearer ' + token }
+    return !this.userToken ? {} : { Authorization: 'Bearer ' + token }
   }
-  setUser(user: IUser) {
-    this.user = user
+  setUser(userToken: IUserToken) {
+    this.userToken = userToken
   }
   get(path: string, options?: AxiosRequestConfig<unknown> | undefined) {
     return this.http.get(this.baseUrl + path, {
@@ -78,4 +76,4 @@ class HTTPService implements IHTTPService {
   }
 }
 
-export const httpService = new HTTPService(axiosInstance, apiUrl)
+export const httpService = new HTTPService(API_URL, axiosInstance, storage)

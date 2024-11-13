@@ -2,19 +2,44 @@
 import CNote from '@/components/CNote.vue'
 import CNoteEditor from '@/components/CNoteEditor.vue'
 import AppButton from '@/elements/AppButton.vue'
+import { notes } from '@/services/notes'
 
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const showModal = ref(false)
+export type Note = {
+  content: string
+  title: string
+  id: number
+}
+
+const modalIsVisible = ref(false)
+const _notes = ref<Note[]>([])
+
+onMounted(getNotes)
+
+async function getNotes() {
+  try {
+    const r = await notes.get()
+    _notes.value = r.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function updateNotes() {
+  await getNotes()
+  modalIsVisible.value = false
+}
 </script>
 
 <template>
   <div class="profile">
     <div class="profile__notes-grid">
-      <CNote v-for="i in 5" :key="i" />
+      <CNote v-for="n in _notes" :key="n.id" :note="n" @updateNotes="updateNotes" />
     </div>
-    <AppButton @click="showModal = true" class="profile__opener-btn accent-button"> </AppButton>
-    <CNoteEditor v-model="showModal" @close="showModal = false" />
+    <AppButton @click="modalIsVisible = true" class="profile__opener-btn accent-button">
+    </AppButton>
+    <CNoteEditor v-model="modalIsVisible" @updateNotes="updateNotes" />
   </div>
 </template>
 
