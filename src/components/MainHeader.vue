@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/services/storage'
 import { auth } from '@/services/auth'
@@ -7,6 +7,7 @@ import { auth } from '@/services/auth'
 import AppButton from '@/elements/AppButton.vue'
 import AppLogo from '@/elements/AppLogo.vue'
 import CAuth from './CAuth.vue'
+
 import CExitModal from './CExitModal.vue'
 
 const router = useRouter()
@@ -15,7 +16,7 @@ const route = useRoute()
 const isModalIntranceVisible = ref(false)
 const isModalExitVisible = ref(false)
 
-const user = ref(storage.get('userProfile'))
+const user = computed(() => storage.get('userProfile'))
 
 watchEffect(() => (isModalIntranceVisible.value = route.query.auth !== undefined))
 

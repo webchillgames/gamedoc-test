@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import { maxLength, minLength, required } from '@vuelidate/validators'
 import { notes } from '@/services/notes'
 
@@ -27,6 +27,8 @@ const rules = {
 
 const v$ = useVuelidate(rules, state)
 
+onUnmounted(clearFields)
+
 async function onSubmit() {
   if (v$.value.$invalid) {
     return
@@ -36,9 +38,15 @@ async function onSubmit() {
     await notes.create(v$.value.title.$model, v$.value.content.$model)
     await notes.get()
     emit('updateNotes')
+    clearFields()
   } catch (error) {
     console.log(error)
   }
+}
+
+function clearFields() {
+  _title.value = ''
+  _content.value = ''
 }
 </script>
 
@@ -71,7 +79,9 @@ async function onSubmit() {
           <p>{{ v$.content.$model.length }} / {{ CONTENT_MAX_LENGTH }}</p>
         </div>
         <div class="note-editor__wrapper">
-          <AppButton class="accent-button" type="submit">Добавить</AppButton>
+          <AppButton :disabled="v$.$invalid" class="accent-button" type="submit"
+            >Добавить</AppButton
+          >
         </div>
       </form>
     </template>

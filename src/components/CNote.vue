@@ -39,6 +39,8 @@ async function removeNote(id: number) {
   padding-bottom: 8px;
   border-radius: 12px;
   position: relative;
+  align-self: flex-start;
+  box-sizing: border-box;
 }
 
 .note::before {
@@ -98,5 +100,11 @@ async function removeNote(id: number) {
 .note__bottom {
   display: flex;
   justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .note {
+    width: 100%;
+  }
 }
 </style>

@@ -90,15 +90,24 @@ const _title = computed(() => {
 @media (max-width: 768px) {
   .auth__form-changer {
     grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4px;
+    padding: 14px 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 156%;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth__form-changer {
     font-weight: 400;
     font-size: 14px;
     line-height: 171%;
-    margin-top: 12px;
   }
 
   .auth__controls {
-    flex-direction: column-reverse;
     margin-top: 28px;
+    flex-direction: column-reverse;
   }
 
   .auth__controls button[type='submit'] {

@@ -86,11 +86,10 @@ defineEmits(['close'])
 
 .modal__wrapper {
   overflow: auto;
-  height: 100%;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  left: 0;
   position: absolute;
 }
 
@@ -98,24 +97,33 @@ defineEmits(['close'])
   background-color: var(--dark-middle);
   padding: 80px;
   border-radius: 40px;
-  max-width: 780px;
-  margin: 164px auto;
-  position: relative;
+  width: 780px;
+  margin: 16px auto;
   box-sizing: border-box;
+  position: relative;
+  margin: auto;
+  /* position: absolute; */
+  /* left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); */
 }
 
 @media (max-width: 1366px) {
   .modal__content {
-    margin: 34px auto;
-    max-width: 594px;
+    width: 594px;
     padding: 56px;
   }
 }
 
 @media (max-width: 768px) {
   .modal__content {
-    margin: 220px auto;
-    max-width: 688px;
+    width: 688px;
+  }
+
+  .modal input,
+  .modal textarea {
+    margin-top: 8px;
+    margin-bottom: 24px;
   }
 }
 
@@ -128,8 +136,8 @@ defineEmits(['close'])
 
   .modal__content {
     max-width: 100%;
-    margin: 0;
     padding: 90px 16px;
+    margin: 0;
   }
 
   .modal__closer {

@@ -39,13 +39,18 @@ async function updateNotes() {
     </div>
     <AppButton @click="modalIsVisible = true" class="profile__opener-btn accent-button">
     </AppButton>
-    <CNoteEditor v-model="modalIsVisible" @updateNotes="updateNotes" />
+    <CNoteEditor
+      v-model="modalIsVisible"
+      @updateNotes="updateNotes"
+      @close="modalIsVisible = false"
+    />
   </div>
 </template>
 
 <style lang="css">
 .profile {
   position: relative;
+  padding: 0 80px;
 }
 
 .profile__opener-btn {
@@ -61,6 +66,8 @@ async function updateNotes() {
   background-position: center;
   background-size: 16px 16px;
   transform: rotate(45deg);
+  box-shadow: 0 15px 46px -10px rgba(0, 0, 0, 0.6);
+  z-index: 1;
 }
 
 .profile__notes-grid {
@@ -69,9 +76,25 @@ async function updateNotes() {
   grid-gap: 40px;
 }
 
+@media (max-width: 1366px) {
+  .profile__notes-grid {
+    grid-gap: 20px;
+  }
+}
+
 @media (max-width: 768px) {
+  .profile {
+    padding: 0 40px;
+  }
+
   .profile__notes-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile {
+    padding: 0 20px;
   }
 }
 </style>
