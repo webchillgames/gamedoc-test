@@ -2,14 +2,24 @@
 import CModal from './CModal.vue'
 import CLoginForm from './CLoginForm.vue'
 import CRegForm from './CRegForm.vue'
+
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const _title = computed(() => {
+  if (!route.query.auth) {
+    return ''
+  }
+
+  return route.query.auth === 'login' ? 'Вход в ваш аккаунт' : 'Регистрация'
+})
 </script>
 
 <template>
   <CModal class="auth">
     <template v-slot:title>
-      {{
-        $route.query.auth && $route.query.auth === 'login' ? 'Вход в ваш аккаунт' : 'Регистрация'
-      }}
+      {{ _title }}
     </template>
 
     <template v-slot:form>
@@ -19,7 +29,7 @@ import CRegForm from './CRegForm.vue'
       />
       <CRegForm
         v-show="$route.query.auth === 'registration'"
-        @showLoginForm="$router.push({ query: { auth: 'login' } })"
+        @showLoginForm="$router.replace({ query: { auth: 'login' } })"
       />
     </template>
   </CModal>
@@ -41,12 +51,14 @@ import CRegForm from './CRegForm.vue'
   justify-content: space-between;
   align-items: center;
   color: grey;
+  margin-top: 40px;
 }
 
 .auth__form-changer {
   display: grid;
   grid-template-columns: repeat(2, max-content);
   grid-gap: 4px;
+  padding: 14px 0;
 }
 
 .auth__form-changer button {
@@ -54,6 +66,9 @@ import CRegForm from './CRegForm.vue'
   background-color: transparent;
   border: 0;
   font-weight: 700;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
 }
 
 .auth__error-msg {
@@ -64,17 +79,32 @@ import CRegForm from './CRegForm.vue'
   padding: 8px 20px;
 }
 
-/* .modal-enter-from {
-  opacity: 0;
+@media (max-width: 1366px) {
+  .auth__form-changer {
+    grid-template-columns: 1fr;
+    grid-gap: 2px;
+    padding: 0;
+  }
 }
 
-.modal-leave-to {
-  opacity: 0;
-}
+@media (max-width: 768px) {
+  .auth__form-changer {
+    grid-template-columns: repeat(2, 1fr);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 171%;
+    margin-top: 12px;
+  }
 
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-} */
+  .auth__controls {
+    flex-direction: column-reverse;
+    margin-top: 28px;
+  }
+
+  .auth__controls button[type='submit'] {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
 </style>

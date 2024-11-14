@@ -33,7 +33,7 @@ async function onSubmit() {
     await auth.login(v$.value.email.$model, v$.value.password.$model)
     await auth.getUserInfo()
   } catch (error) {
-    _error_messages.value = error.response.data.message
+    _error_messages.value = error ? error.response.data.message : 'Неизвестная ошибка'
   }
 }
 </script>

@@ -62,12 +62,17 @@ defineEmits(['close'])
 .modal input,
 .modal textarea {
   border-radius: 36px;
-  padding: 24px 16px;
+  padding: 23px 28px;
   display: flex;
-  width: 100%;
   box-sizing: border-box;
   margin-top: 8px;
   margin-bottom: 24px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 156%;
+  color: var(--grey);
+  max-width: 620px;
+  width: 100%;
 }
 
 .modal input:last-child {
@@ -94,25 +99,47 @@ defineEmits(['close'])
   padding: 80px;
   border-radius: 40px;
   max-width: 780px;
-  margin: 130px auto;
+  margin: 164px auto;
   position: relative;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1366px) {
   .modal__content {
+    margin: 34px auto;
     max-width: 594px;
+    padding: 56px;
   }
 }
 
 @media (max-width: 768px) {
   .modal__content {
+    margin: 220px auto;
     max-width: 688px;
   }
 }
 
 @media (max-width: 360px) {
+  .modal h2 {
+    font-size: 32px;
+    line-height: 112%;
+    margin-bottom: 28px;
+  }
+
   .modal__content {
     max-width: 100%;
+    margin: 0;
+    padding: 90px 16px;
+  }
+
+  .modal__closer {
+    top: 16px;
+    right: 16px;
+  }
+
+  .modal input,
+  .modal textarea {
+    margin-bottom: 16px;
   }
 }
 </style>

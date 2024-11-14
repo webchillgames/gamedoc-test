@@ -34,7 +34,6 @@
   margin: 0;
   margin-bottom: 40px;
   font-weight: 900;
-  margin-top: 40px;
 }
 
 .home-view__promo h3 {
@@ -66,6 +65,7 @@
   .home-view__promo {
     grid-template-columns: 1fr;
     text-align: center;
+    margin-top: 40px;
   }
 
   .home-view__promo h3 {

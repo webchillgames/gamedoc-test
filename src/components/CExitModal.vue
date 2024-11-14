@@ -21,6 +21,8 @@ import AppButton from '@/elements/AppButton.vue'
   align-items: center;
   margin-top: 9px;
   position: absolute;
+  cursor: pointer;
+  z-index: 100;
 }
 
 .exit-modal::after {

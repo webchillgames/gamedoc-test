@@ -1,25 +1,30 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storage } from '@/services/storage'
+import { auth } from '@/services/auth'
 
 import AppButton from '@/elements/AppButton.vue'
 import AppLogo from '@/elements/AppLogo.vue'
 import CAuth from './CAuth.vue'
 import CExitModal from './CExitModal.vue'
-import { auth } from '@/services/auth'
 
 const router = useRouter()
 const route = useRoute()
 
-const isModalIntranceVisible = ref(!!route.query.auth)
+const isModalIntranceVisible = ref(false)
 const isModalExitVisible = ref(false)
 
 const user = ref(storage.get('userProfile'))
 
+watchEffect(() => (isModalIntranceVisible.value = route.query.auth !== undefined))
+
 function onEntranceClick() {
   router.push({ query: { auth: 'login' } })
-  // isModalIntranceVisible.value = true
+}
+
+function onCloseAuthModal() {
+  router.replace({ query: undefined })
 }
 
 async function onExitClick() {
@@ -59,7 +64,7 @@ async function onExitClick() {
       Вход
     </AppButton>
 
-    <CAuth v-model="isModalIntranceVisible" @close="isModalIntranceVisible = false" />
+    <CAuth v-model="isModalIntranceVisible" @close="onCloseAuthModal" />
   </div>
 </template>
 
