@@ -1,23 +1,25 @@
+type StorageKey = 'userToken'
+
 export interface IStorageService {
-  set(title: string, item: string): void
-  get<T>(title: string): T
-  remove(key: string): void
+  set(key: StorageKey, item: unknown): void
+  get<T>(key: StorageKey): T | null
+  remove(key: StorageKey): void
 }
 
 class StorageService implements IStorageService {
   constructor(private storage: Storage) {}
 
-  set(key: string, value: unknown): void {
-    this.storage.setItem(key, JSON.stringify(value))
+  set(key: StorageKey, value: unknown): void {
+    return this.storage.setItem(key, JSON.stringify(value))
   }
 
-  get(key: string) {
+  get(key: StorageKey) {
     const storageValue = this.storage.getItem(key)
 
     return storageValue ? JSON.parse(storageValue) : null
   }
 
-  remove(key: string): void {
+  remove(key: StorageKey): void {
     return this.storage.removeItem(key)
   }
 }

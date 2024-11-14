@@ -5,12 +5,16 @@ import { ref } from 'vue'
 import { auth } from '../services/auth'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
+import { AxiosError } from 'axios'
+import { useUser } from '@/composables/user'
 
 defineEmits(['showRegForm'])
 
 const _email = ref('rtyu@ghj.cow')
 const _password = ref('1234')
-const _error_messages = ref([])
+const _error_messages = ref<string[]>([])
+
+const { updateUserInfo } = useUser()
 
 const state = ref({
   email: _email.value,
@@ -31,9 +35,17 @@ async function onSubmit() {
 
   try {
     await auth.login(v$.value.email.$model, v$.value.password.$model)
-    await auth.getUserInfo()
+    await updateUserInfo()
   } catch (error) {
-    _error_messages.value = error ? error.response.data.message : 'Неизвестная ошибка'
+    let message = ['Неизвестная ошибка']
+
+    if (error instanceof AxiosError) {
+      if (error.response) {
+        message = error.response.data.message as string[]
+      }
+    }
+
+    _error_messages.value = message
   }
 }
 </script>

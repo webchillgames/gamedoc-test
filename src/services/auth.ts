@@ -1,14 +1,22 @@
 import { httpService, type IHTTPService, type IUserToken } from './http'
-import { storage } from './storage'
+import { storage, type IStorageService } from './storage'
 import router from '@/router/index'
 
 interface IAuthService {
+  hasSavedSession: boolean
   login(email: string, password: string): void
   register(email: string, password: string, confirm_password: string): void
+  logout(): void
 }
 
 class AuthService implements IAuthService {
-  constructor(private http: IHTTPService) {}
+  constructor(
+    private http: IHTTPService,
+    private storage: IStorageService,
+  ) {}
+  get hasSavedSession() {
+    return this.storage.get<IUserToken>('userToken') !== null
+  }
   async login(email: string, password: string) {
     const response = await this.http.post<IUserToken>('/api/auth', {
       email,
@@ -16,17 +24,13 @@ class AuthService implements IAuthService {
     })
 
     this.http.setUser(response.data)
-    storage.set('userToken', response.data)
+    this.storage.set('userToken', response.data)
     router.push({ name: 'profile' })
   }
-  async getUserInfo() {
-    const response = await this.http.get('/api/auth')
-    storage.set('userProfile', response.data)
-  }
-  async exit() {
-    storage.remove('userToken')
-    storage.remove('userProfile')
-    return this.http.delete('/api/auth', null)
+  async logout() {
+    this.storage.remove('userToken')
+    this.http.delete('/api/auth', null)
+    this.http.setUser(null)
   }
   async register(email: string, password: string, confirm_password: string) {
     return this.http.post('/api/reg', {
@@ -37,4 +41,4 @@ class AuthService implements IAuthService {
   }
 }
 
-export const auth = new AuthService(httpService)
+export const auth = new AuthService(httpService, storage)

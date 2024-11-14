@@ -1,12 +1,30 @@
 <script setup lang="ts">
 import MainHeader from '@/components/MainHeader.vue'
 import { ModalsContainer } from 'vue-final-modal'
+import { useUser } from './composables/user'
+import { onMounted, ref } from 'vue'
+
+const isLoading = ref(true)
+
+const { updateUserInfo } = useUser()
+
+onMounted(async () => {
+  try {
+    isLoading.value = true
+    await updateUserInfo()
+  } finally {
+    isLoading.value = false
+  }
+})
 </script>
 
 <template>
   <div class="app">
-    <MainHeader />
-    <RouterView />
+    <template v-if="!isLoading">
+      <MainHeader />
+      <RouterView />
+    </template>
+
     <ModalsContainer />
   </div>
 </template>
@@ -32,9 +50,15 @@ body {
   color: var(--white);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .app {
   max-width: 1600px;
   margin: 0 auto;
+  padding: 0 40px;
+  box-sizing: border-box;
 }
 
 .accent-button {
@@ -57,18 +81,21 @@ body {
 @media (max-width: 1366px) {
   .app {
     max-width: 1205px;
+    padding: 0 20px;
   }
 }
 
 @media (max-width: 768px) {
   .app {
     max-width: 688px;
+    width: 100%;
   }
 }
 
 @media (max-width: 360px) {
   .app {
     max-width: 320px;
+    width: 100%;
   }
 }
 </style>

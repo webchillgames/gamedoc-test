@@ -2,15 +2,9 @@
 import CNote from '@/components/CNote.vue'
 import CNoteEditor from '@/components/CNoteEditor.vue'
 import AppButton from '@/elements/AppButton.vue'
-import { notes } from '@/services/notes'
+import { notes, type Note } from '@/services/notes'
 
 import { onMounted, ref } from 'vue'
-
-export type Note = {
-  content: string
-  title: string
-  id: number
-}
 
 const modalIsVisible = ref(false)
 const _notes = ref<Note[]>([])
@@ -50,7 +44,6 @@ async function updateNotes() {
 <style lang="css">
 .profile {
   position: relative;
-  padding: 0 80px;
 }
 
 .profile__opener-btn {
@@ -83,18 +76,8 @@ async function updateNotes() {
 }
 
 @media (max-width: 768px) {
-  .profile {
-    padding: 0 40px;
-  }
-
   .profile__notes-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 360px) {
-  .profile {
-    padding: 0 20px;
   }
 }
 </style>

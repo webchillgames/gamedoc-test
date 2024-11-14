@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { storage } from '@/services/storage'
 import { auth } from '@/services/auth'
 
 import AppButton from '@/elements/AppButton.vue'
@@ -9,14 +8,14 @@ import AppLogo from '@/elements/AppLogo.vue'
 import CAuth from './CAuth.vue'
 
 import CExitModal from './CExitModal.vue'
+import { useUser } from '@/composables/user'
 
 const router = useRouter()
 const route = useRoute()
+const { user } = useUser()
 
 const isModalIntranceVisible = ref(false)
 const isModalExitVisible = ref(false)
-
-const user = computed(() => storage.get('userProfile'))
 
 watchEffect(() => (isModalIntranceVisible.value = route.query.auth !== undefined))
 
@@ -30,7 +29,8 @@ function onCloseAuthModal() {
 
 async function onExitClick() {
   try {
-    await auth.exit()
+    await auth.logout()
+    user.value = null
     isModalExitVisible.value = false
     router.push({ name: 'home' })
   } catch (error) {
@@ -48,7 +48,7 @@ async function onExitClick() {
         @click="isModalExitVisible = !isModalExitVisible"
         class="main-header__profile-button"
       >
-        {{ user.email }}
+        <span>{{ user.email }}</span>
         <span></span>
       </AppButton>
       <Transition>
@@ -96,7 +96,7 @@ async function onExitClick() {
   color: var(--white);
 }
 
-.main-header__profile-button span {
+.main-header__profile-button span:nth-child(2) {
   margin-left: 12px;
   width: 56px;
   height: 56px;
@@ -126,6 +126,15 @@ async function onExitClick() {
 @media (max-width: 1366px) {
   .main-header {
     padding: 20px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-header__profile-button {
+    justify-content: flex-end;
+  }
+  .main-header__profile-button span:nth-child(1) {
+    display: none;
   }
 }
 </style>

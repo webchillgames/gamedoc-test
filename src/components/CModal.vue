@@ -102,10 +102,10 @@ defineEmits(['close'])
   box-sizing: border-box;
   position: relative;
   margin: auto;
-  /* position: absolute; */
-  /* left: 50%;
+  position: absolute;
+  left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); */
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 1366px) {
@@ -117,7 +117,8 @@ defineEmits(['close'])
 
 @media (max-width: 768px) {
   .modal__content {
-    width: 688px;
+    max-width: 688px;
+    width: 100%;
   }
 
   .modal input,

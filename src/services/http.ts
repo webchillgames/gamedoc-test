@@ -12,7 +12,7 @@ export interface IUserToken {
 }
 
 export interface IHTTPService {
-  setUser(user: IUserToken): void
+  setUser(user: IUserToken | null): void
   get<T>(path: string): Promise<AxiosResponse<T, unknown>>
   post<T>(
     path: string,
@@ -47,7 +47,7 @@ class HTTPService implements IHTTPService {
 
     return !this.userToken ? {} : { Authorization: 'Bearer ' + token }
   }
-  setUser(userToken: IUserToken) {
+  setUser(userToken: IUserToken | null) {
     this.userToken = userToken
   }
   get(path: string, options?: AxiosRequestConfig<unknown> | undefined) {
@@ -76,4 +76,4 @@ class HTTPService implements IHTTPService {
   }
 }
 
-export const httpService = new HTTPService(API_URL, axiosInstance, storage)
+export const httpService: IHTTPService = new HTTPService(API_URL, axiosInstance, storage)

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import AppButton from '@/elements/AppButton.vue'
-import { type Note } from '../views/VProfile.vue'
-import { notes } from '@/services/notes'
+import { notes, type Note } from '@/services/notes'
 
 defineProps<{ note: Note }>()
 const emit = defineEmits(['updateNotes'])
@@ -41,6 +40,7 @@ async function removeNote(id: number) {
   position: relative;
   align-self: flex-start;
   box-sizing: border-box;
+  word-break: break;
 }
 
 .note::before {
@@ -70,7 +70,7 @@ async function removeNote(id: number) {
   font-weight: 500;
   font-size: 20px;
   line-height: 160%;
-  padding: 20px 28px 28px 28px;
+  padding: 20px 0;
   margin: 0;
 }
 

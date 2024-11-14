@@ -45,8 +45,8 @@
 }
 
 .home-view__promo-image {
-  width: 898px;
-  height: 864px;
+  max-width: 898px;
+  height: auto;
 }
 
 .home-view__promo-image img {
@@ -56,8 +56,7 @@
 
 @media (max-width: 1366px) {
   .home-view__promo-image {
-    width: 627px;
-    height: 604px;
+    max-width: 627px;
   }
 }
 
@@ -84,8 +83,7 @@
   }
 
   .home-view__promo-image {
-    width: 560px;
-    height: 540px;
+    max-width: 560px;
     margin: 0 auto;
   }
 }
@@ -102,8 +100,7 @@
     margin-top: 20px;
   }
   .home-view__promo-image {
-    width: 298px;
-    height: 287px;
+    max-width: 298px;
   }
 }
 </style>

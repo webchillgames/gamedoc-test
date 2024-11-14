@@ -72,7 +72,7 @@ function clearFields() {
         <textarea
           v-model="v$.content.$model"
           placeholder="Введите текст"
-          rows="13"
+          rows="7"
           maxlength="CONTENT_MAX_LENGTH"
         ></textarea>
         <div class="note-editor__wrapper note-editor__wrapper--counter">
@@ -94,14 +94,22 @@ function clearFields() {
   justify-content: flex-end;
 }
 
-.note-editor__wrapper--counter {
-  p {
-    color: var(--grey);
-    margin: 0;
-  }
+.note-editor__wrapper--counter p {
+  color: var(--grey);
+  margin: 0;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 156%;
 }
+
+.note-editor__wrapper--counter {
+  margin-bottom: 24px;
+  padding: 0 24px;
+}
+
 .note-editor textarea,
 .note-editor input {
   border: 0;
+  margin-bottom: 8px;
 }
 </style>
