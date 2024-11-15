@@ -13,11 +13,12 @@ import { VueFinalModal } from 'vue-final-modal'
     <!-- @vue-expect-error неправильные типы у библиотеки -->
     <template #default="{ close }">
       <div class="modal__wrapper">
+        <AppButton @click="() => close()" class="modal__closer accent-button"></AppButton>
+
         <div class="modal__content">
           <h2>
             <slot name="title"></slot>
           </h2>
-          <AppButton @click="() => close()" class="modal__closer accent-button"></AppButton>
 
           <slot name="form"></slot>
         </div>
@@ -56,17 +57,7 @@ import { VueFinalModal } from 'vue-final-modal'
 }
 
 .modal__wrapper {
-  overflow: auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: absolute;
-}
-
-.modal__content {
   background-color: var(--dark-middle);
-  padding: 80px;
   border-radius: 40px;
   width: 780px;
   margin: 16px auto;
@@ -77,11 +68,20 @@ import { VueFinalModal } from 'vue-final-modal'
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  overflow: auto;
   max-height: 90%;
+}
 
+.modal__wrapper,
+.modal__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__content {
+  overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  padding: 80px;
 }
 
 .modal__content::-webkit-scrollbar {
@@ -89,16 +89,21 @@ import { VueFinalModal } from 'vue-final-modal'
 }
 
 @media (max-width: 1366px) {
-  .modal__content {
+  .modal__wrapper {
     width: 594px;
+  }
+  .modal__content {
     padding: 56px;
   }
 }
 
 @media (max-width: 768px) {
+  .modal__wrapper {
+    width: 100%;
+  }
+
   .modal__content {
     max-width: 688px;
-    width: 100%;
   }
 }
 
@@ -109,8 +114,11 @@ import { VueFinalModal } from 'vue-final-modal'
     margin-bottom: 28px;
   }
 
-  .modal__content {
+  .modal__wrapper {
     max-width: 100%;
+  }
+
+  .modal__content {
     padding: 90px 16px;
     margin: 0;
   }
