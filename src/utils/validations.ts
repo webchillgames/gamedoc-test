@@ -14,3 +14,5 @@ export const validations = {
     return helpers.withMessage(`Пароли не совпадают`, sameAs(value))
   },
 }
+
+export const PASSWORD_MIN_LENGTH = 4

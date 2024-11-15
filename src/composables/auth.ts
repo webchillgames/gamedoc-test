@@ -6,7 +6,8 @@ export function useAuth() {
 
     if (error instanceof AxiosError) {
       if (error.response) {
-        message = error.response.data.message as string[]
+        const value = error.response.data.message
+        message = Array.isArray(value) ? value : [value]
       }
     }
 

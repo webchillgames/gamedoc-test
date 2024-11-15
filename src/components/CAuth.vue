@@ -76,18 +76,6 @@ const _title = computed(() => {
   color: var(--white);
 }
 
-.auth__error-msg {
-  margin-top: 20px;
-  background-color: rgba(255, 116, 97, 0.1);
-  color: var(--error);
-  border-radius: 24px;
-  padding: 8px 20px;
-}
-
-.auth__error-msg p {
-  margin: 0;
-}
-
 @media (max-width: 1366px) {
   .auth__form-changer {
     grid-template-columns: 1fr;

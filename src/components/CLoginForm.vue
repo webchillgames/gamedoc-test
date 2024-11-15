@@ -4,12 +4,11 @@ import { auth } from '../services/auth'
 import { useVuelidate } from '@vuelidate/core'
 
 import { useUser } from '@/composables/user'
-import { validations } from '@/utils/validations'
+import { PASSWORD_MIN_LENGTH, validations } from '@/utils/validations'
 import { useAuth } from '@/composables/auth'
 
 import AppButton from '@/elements/AppButton.vue'
-
-const { getErrorMsg } = useAuth()
+import CErrors from './CErrors.vue'
 
 defineEmits(['showRegForm'])
 
@@ -17,11 +16,16 @@ const _email = ref('rtyu@ghj.cow')
 const _password = ref('1234')
 const _error_messages = ref<string[]>([])
 const _password_is_visible = ref(false)
+
 const { updateUserInfo } = useUser()
+const { getErrorMsg } = useAuth()
 
 const rules = {
   email: { required: validations.required, email: validations.email },
-  password: { required: validations.required, minLength: validations.minLength(4) },
+  password: {
+    required: validations.required,
+    minLength: validations.minLength(PASSWORD_MIN_LENGTH),
+  },
 }
 
 const v$ = useVuelidate(rules, {
@@ -78,11 +82,7 @@ async function onSubmit() {
       </div>
       <AppButton type="submit" class="accent-button" :disabled="v$.$invalid">Войти</AppButton>
     </div>
-    <Transition>
-      <div v-show="_error_messages.length" class="auth__error-msg">
-        <p v-for="(er, i) in _error_messages" :key="i">{{ er }}</p>
-      </div>
-    </Transition>
+    <CErrors :errors-messages="_error_messages" />
   </form>
 </template>
 

@@ -6,24 +6,29 @@ import AppButton from '@/elements/AppButton.vue'
 import CModal from './CModal.vue'
 import useVuelidate from '@vuelidate/core'
 import { validations } from '@/utils/validations'
+import CErrors from './CErrors.vue'
+import { useAuth } from '@/composables/auth'
 
 const emit = defineEmits(['updateNotes'])
+const { getErrorMsg } = useAuth()
 
 const TITLE_MAX_LENGTH = 100
-const CONTENT_MAX_LENGTH = 500
+const CONTENT_MAX_LENGTH = 255
+const MIN_LENGTH = 1
 
 const _title = ref('')
 const _content = ref('')
+const _error_messages = ref<string[]>([])
 
 const rules = {
   title: {
     required: validations.required,
-    minLength: validations.minLength(1),
+    minLength: validations.minLength(MIN_LENGTH),
     maxLength: validations.maxLength(TITLE_MAX_LENGTH),
   },
   content: {
     required: validations.required,
-    minLength: validations.minLength(1),
+    minLength: validations.minLength(MIN_LENGTH),
     maxLength: validations.maxLength(CONTENT_MAX_LENGTH),
   },
 }
@@ -46,7 +51,7 @@ async function onSubmit() {
     emit('updateNotes')
     clearFields()
   } catch (error) {
-    console.log(error)
+    _error_messages.value = getErrorMsg(error)
   }
 }
 
@@ -101,6 +106,8 @@ function clearFields() {
           >
         </div>
       </form>
+
+      <CErrors :errors-messages="_error_messages" />
     </template>
   </CModal>
 </template>

@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { auth } from '@/services/auth'
 import { ref } from 'vue'
-import { validations } from '@/utils/validations'
+import { PASSWORD_MIN_LENGTH, validations } from '@/utils/validations'
 
 import { useAuth } from '@/composables/auth'
 
 import AppButton from '@/elements/AppButton.vue'
 import useVuelidate from '@vuelidate/core'
+import CErrors from './CErrors.vue'
 
 const { getErrorMsg } = useAuth()
 
@@ -19,7 +20,10 @@ const _error_messages = ref<string[]>([])
 
 const rules = {
   email: { required: validations.required, email: validations.email },
-  password: { required: validations.required, minLength: validations.minLength(4) },
+  password: {
+    required: validations.required,
+    minLength: validations.minLength(PASSWORD_MIN_LENGTH),
+  },
   password_repeat: {
     required: validations.required,
     minLength: validations.minLength(4),
@@ -76,16 +80,13 @@ async function onSubmit() {
         <span> У вас есть аккаунт?</span>
         <AppButton @click="$emit('showLoginForm')">Войдите</AppButton>
       </div>
-      <AppButton :disable="v$.$invalid" type="submit" class="accent-button"
+
+      <AppButton :disabled="v$.$invalid" type="submit" class="accent-button"
         >Зарегистрироваться</AppButton
       >
     </div>
 
-    <Transition>
-      <div v-show="_error_messages.length" class="auth__error-msg">
-        <p v-for="(er, i) in _error_messages" :key="i">{{ er }}</p>
-      </div>
-    </Transition>
+    <CErrors :errors-messages="_error_messages" />
   </form>
 </template>
 
