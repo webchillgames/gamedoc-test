@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import AppButton from '@/elements/AppButton.vue'
 import { VueFinalModal } from 'vue-final-modal'
-defineEmits(['close'])
 </script>
 
 <template>
@@ -11,16 +10,19 @@ defineEmits(['close'])
     overlay-transition="vfm-fade"
     overlayClass="modal__overlay"
   >
-    <div class="modal__wrapper">
-      <div class="modal__content">
-        <h2>
-          <slot name="title"></slot>
-        </h2>
-        <AppButton @click="$emit('close')" class="modal__closer accent-button"></AppButton>
+    <!-- @vue-expect-error неправильные типы у библиотеки -->
+    <template #default="{ close }">
+      <div class="modal__wrapper">
+        <div class="modal__content">
+          <h2>
+            <slot name="title"></slot>
+          </h2>
+          <AppButton @click="() => close()" class="modal__closer accent-button"></AppButton>
 
-        <slot name="form"></slot>
+          <slot name="form"></slot>
+        </div>
       </div>
-    </div>
+    </template>
   </VueFinalModal>
 </template>
 

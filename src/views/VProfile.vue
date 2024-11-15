@@ -33,11 +33,7 @@ async function updateNotes() {
     </div>
     <AppButton @click="modalIsVisible = true" class="profile__opener-btn accent-button">
     </AppButton>
-    <CNoteEditor
-      v-model="modalIsVisible"
-      @updateNotes="updateNotes"
-      @close="modalIsVisible = false"
-    />
+    <CNoteEditor v-model="modalIsVisible" @updateNotes="updateNotes" />
   </div>
 </template>
 
