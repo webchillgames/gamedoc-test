@@ -27,22 +27,21 @@ async function updateNotes() {
 </script>
 
 <template>
-  <div class="profile">
-    <div class="profile__notes-grid">
+  <div class="notes">
+    <div class="notes__grid">
       <CNote v-for="n in _notes" :key="n.id" :note="n" @updateNotes="updateNotes" />
     </div>
-    <AppButton @click="modalIsVisible = true" class="profile__opener-btn accent-button">
-    </AppButton>
+    <AppButton @click="modalIsVisible = true" class="notes__opener-btn accent-button"> </AppButton>
     <CNoteEditor v-model="modalIsVisible" @updateNotes="updateNotes" />
   </div>
 </template>
 
 <style lang="css">
-.profile {
+.notes {
   position: relative;
 }
 
-.profile__opener-btn {
+.notes__opener-btn {
   position: fixed;
   width: 56px;
   height: 56px;
@@ -58,7 +57,7 @@ async function updateNotes() {
   z-index: 1;
 }
 
-.profile__notes-grid {
+.notes__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
@@ -66,19 +65,19 @@ async function updateNotes() {
 }
 
 @media (max-width: 1366px) {
-  .profile__notes-grid {
+  .notes__grid {
     grid-gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .profile__notes-grid {
+  .notes__grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 360px) {
-  .profile__notes-grid {
+  .notes__grid {
     margin-top: 20px;
   }
 }

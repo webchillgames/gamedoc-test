@@ -30,9 +30,9 @@ class AuthService implements IAuthService {
 
     this.http.setUser(response.data)
     this.storage.set('userToken', response.data)
-    router.push({ name: 'profile' })
+    router.push({ name: 'notes' })
   }
-  async logout() {
+  logout() {
     this.storage.remove('userToken')
     this.http.delete('/api/auth', null)
     this.http.setUser(null)

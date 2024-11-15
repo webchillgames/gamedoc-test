@@ -10,8 +10,10 @@ import useVuelidate from '@vuelidate/core'
 import FormErrorsMessages from '@/elements/FormErrorsMessages.vue'
 import InputEmail from '@/elements/InputEmail.vue'
 import InputPassword from '@/elements/InputPassword.vue'
+import { useUser } from '@/composables/user'
 
 const { getErrorMsg } = useAuth()
+const { updateUserInfo } = useUser()
 
 defineEmits(['showLoginForm'])
 
@@ -45,6 +47,8 @@ async function onSubmit() {
   }
   try {
     await auth.register(_email.value, _password.value, _password_repeat.value)
+    await auth.login(_email.value, _password.value)
+    await updateUserInfo()
   } catch (error) {
     _error_messages.value = getErrorMsg(error)
   }

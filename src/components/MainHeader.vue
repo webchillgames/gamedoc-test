@@ -27,21 +27,17 @@ function onClosedAuthModal() {
   router.replace({ query: undefined })
 }
 
-async function onExitClick() {
-  try {
-    await auth.logout()
-    user.value = null
-    isModalExitVisible.value = false
-    router.push({ name: 'home' })
-  } catch (error) {
-    console.log(error)
-  }
+function onExitClick() {
+  auth.logout()
+  user.value = null
+  isModalExitVisible.value = false
+  router.push({ name: 'home' })
 }
 </script>
 
 <template>
   <div class="main-header">
-    <router-link :to="user ? '/profile' : '/'">
+    <router-link :to="user ? '/notes' : '/'">
       <AppLogo />
     </router-link>
 
