@@ -75,6 +75,9 @@ defineEmits(['close'])
   border: 0;
   transition: all 0.2s;
 }
+.modal textarea {
+  resize: none;
+}
 
 .modal input:hover,
 .modal textarea:hover,
@@ -113,11 +116,19 @@ defineEmits(['close'])
   position: relative;
   margin: auto;
 
-  /* position: absolute;
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  min-height: 100%; */
+  overflow: auto;
+  max-height: 90%;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal__content::-webkit-scrollbar {
+  display: none;
 }
 
 @media (max-width: 1366px) {
