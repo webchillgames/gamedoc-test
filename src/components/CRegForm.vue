@@ -7,7 +7,9 @@ import { useAuth } from '@/composables/auth'
 
 import AppButton from '@/elements/AppButton.vue'
 import useVuelidate from '@vuelidate/core'
-import CErrors from './CErrors.vue'
+import FormErrorsMessages from '@/elements/FormErrorsMessages.vue'
+import InputEmail from '@/elements/InputEmail.vue'
+import InputPassword from '@/elements/InputPassword.vue'
 
 const { getErrorMsg } = useAuth()
 
@@ -51,29 +53,13 @@ async function onSubmit() {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <div :class="{ 'error-visible': v$.email.$error }">
-      <label>Email</label>
-      <input type="email" placeholder="Введите значение" v-model="v$.email.$model" />
-      <div class="error-message">
-        <p v-for="(er, i) in v$.email.$errors" :key="i">{{ er.$message }}</p>
-      </div>
-    </div>
-
-    <div :class="{ 'error-visible': v$.password.$error }">
-      <label>Пароль</label>
-      <input type="text" placeholder="Введите пароль" v-model="v$.password.$model" />
-      <div class="error-message">
-        <p v-for="(er, i) in v$.password.$errors" :key="i">{{ er.$message }}</p>
-      </div>
-    </div>
-
-    <div :class="{ 'error-visible': v$.password_repeat.$error }">
-      <label>Пароль ещё раз</label>
-      <input type="text" placeholder="Введите пароль" v-model="v$.password_repeat.$model" />
-      <div class="error-message">
-        <p v-for="(er, i) in v$.password_repeat.$errors" :key="i">{{ er.$message }}</p>
-      </div>
-    </div>
+    <InputEmail v-model="v$.email.$model" :errors="v$.email.$errors" />
+    <InputPassword v-model="v$.password.$model" :errors="v$.password.$errors" label="Пароль" />
+    <InputPassword
+      v-model="v$.password_repeat.$model"
+      :errors="v$.password_repeat.$errors"
+      label="Пароль ещё раз"
+    />
 
     <div class="auth__controls">
       <div class="auth__form-changer">
@@ -86,7 +72,7 @@ async function onSubmit() {
       >
     </div>
 
-    <CErrors :errors-messages="_error_messages" />
+    <FormErrorsMessages :errors-messages="_error_messages" />
   </form>
 </template>
 

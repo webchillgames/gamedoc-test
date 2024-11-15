@@ -28,10 +28,8 @@ onMounted(async () => {
     <ModalsContainer />
   </div>
 </template>
-
+<style src="@/styles/variables.css"></style>
 <style lang="css">
-@import '@/styles/variables.css';
-
 #app,
 body,
 html,
@@ -94,50 +92,6 @@ body {
 
 .accent-button:disabled {
   background-color: var(--grey);
-}
-
-.error-message {
-  color: #ff7461;
-}
-
-.error-visible .error-message {
-  padding: 8px 24px;
-  margin-bottom: 16px;
-}
-
-.error-message p {
-  margin: 0;
-}
-
-.error-visible input,
-.error-visible .custom-input input {
-  margin-bottom: 0;
-}
-
-.custom-input {
-  position: relative;
-}
-
-.custom-input button {
-  position: absolute;
-  background-size: 18px 14px;
-  background-position: center;
-  height: 100%;
-  background-repeat: no-repeat;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  width: 80px;
-  padding: 0;
-  transition: all 0.2s;
-}
-
-.custom-input--password button {
-  background-image: url('@/assets/closed-eye.svg');
-}
-
-.custom-input--password-visible button {
-  background-image: url('@/assets/opened-eye.svg');
 }
 
 @media (max-width: 1366px) {

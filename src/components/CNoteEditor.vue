@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import { onUnmounted, ref } from 'vue'
 import { notes } from '@/services/notes'
+import { validations } from '@/utils/validations'
+
+import { useAuth } from '@/composables/auth'
 
 import AppButton from '@/elements/AppButton.vue'
 import CModal from './CModal.vue'
 import useVuelidate from '@vuelidate/core'
-import { validations } from '@/utils/validations'
-import CErrors from './CErrors.vue'
-import { useAuth } from '@/composables/auth'
+
+import FormErrorsMessages from '@/elements/FormErrorsMessages.vue'
+import InputText from '@/elements/InputText.vue'
+import AppTextarea from '@/elements/AppTextarea.vue'
 
 const emit = defineEmits(['updateNotes'])
 const { getErrorMsg } = useAuth()
@@ -67,39 +71,25 @@ function clearFields() {
 
     <template v-slot:form>
       <form @submit.prevent="onSubmit">
-        <div :class="{ 'error-visible': v$.title.$error }">
-          <label>Название заметки</label>
-          <input
-            v-model="v$.title.$model"
-            type="text"
-            placeholder="Введите название"
-            :maxlength="TITLE_MAX_LENGTH"
-          />
-          <div class="error-message">
-            <p v-for="(er, i) in v$.title.$errors" :key="i">{{ er.$message }}</p>
-          </div>
+        <InputText
+          v-model="v$.title.$model"
+          :errors="v$.title.$errors"
+          :data="{
+            label: 'Название заметки',
+            max: TITLE_MAX_LENGTH,
+            placeholder: 'Введите название',
+          }"
+        />
 
-          <div class="note-editor__wrapper note-editor__wrapper--counter">
-            <p>{{ _title.length }} / {{ TITLE_MAX_LENGTH }}</p>
-          </div>
-        </div>
-
-        <div :class="{ 'error-visible': v$.content.$error }">
-          <label>Текст заметки</label>
-          <!-- @vue-expect-error конфликт vuelidate и vue-ts -->
-          <textarea
-            v-model="v$.content.$model"
-            placeholder="Введите текст"
-            rows="7"
-            maxlength="CONTENT_MAX_LENGTH"
-          ></textarea>
-          <div class="error-message">
-            <p v-for="(er, i) in v$.content.$errors" :key="i">{{ er.$message }}</p>
-          </div>
-          <div class="note-editor__wrapper note-editor__wrapper--counter">
-            <p>{{ _content.length }} / {{ CONTENT_MAX_LENGTH }}</p>
-          </div>
-        </div>
+        <AppTextarea
+          v-model="v$.content.$model"
+          :errors="v$.content.$errors"
+          :data="{
+            label: 'Текст заметки',
+            max: CONTENT_MAX_LENGTH,
+            placeholder: 'Введите текст',
+          }"
+        />
         <div class="note-editor__wrapper">
           <AppButton :disabled="v$.$invalid" class="accent-button" type="submit"
             >Добавить</AppButton
@@ -107,7 +97,7 @@ function clearFields() {
         </div>
       </form>
 
-      <CErrors :errors-messages="_error_messages" />
+      <FormErrorsMessages :errors-messages="_error_messages" />
     </template>
   </CModal>
 </template>
@@ -116,19 +106,6 @@ function clearFields() {
 .note-editor__wrapper {
   display: flex;
   justify-content: flex-end;
-}
-
-.note-editor__wrapper--counter p {
-  color: var(--grey);
-  margin: 0;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 156%;
-}
-
-.note-editor__wrapper--counter {
-  margin-bottom: 24px;
-  padding: 0 24px;
 }
 
 .note-editor textarea,

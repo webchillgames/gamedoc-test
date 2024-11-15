@@ -53,57 +53,6 @@ defineEmits(['close'])
   margin-bottom: 40px;
 }
 
-.modal input {
-  height: 72px;
-}
-
-.modal input,
-.modal textarea {
-  border-radius: 36px;
-  padding: 23px 28px;
-  display: flex;
-  box-sizing: border-box;
-  margin-top: 8px;
-  margin-bottom: 24px;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 156%;
-
-  max-width: 620px;
-  width: 100%;
-  border: 0;
-  transition: all 0.2s;
-  font-family: inherit;
-  color: var(--dark);
-}
-
-.modal input::placeholder,
-.modal textarea::placeholder {
-  color: var(--grey);
-}
-
-.modal textarea {
-  resize: none;
-}
-
-.modal input:hover,
-.modal textarea:hover,
-.modal input:active,
-.modal textarea:active,
-.modal input:focus,
-.modal textarea:focus {
-  outline: 2px solid var(--green-light);
-}
-
-.modal input:last-child {
-  margin-bottom: 40px;
-}
-
-.modal label {
-  color: var(--grey);
-  padding-left: 24px;
-}
-
 .modal__wrapper {
   overflow: auto;
   top: 0;
@@ -122,7 +71,6 @@ defineEmits(['close'])
   box-sizing: border-box;
   position: relative;
   margin: auto;
-
   position: absolute;
   left: 50%;
   top: 50%;
@@ -150,12 +98,6 @@ defineEmits(['close'])
     max-width: 688px;
     width: 100%;
   }
-
-  .modal input,
-  .modal textarea {
-    margin-top: 8px;
-    margin-bottom: 24px;
-  }
 }
 
 @media (max-width: 360px) {
@@ -174,11 +116,6 @@ defineEmits(['close'])
   .modal__closer {
     top: 16px;
     right: 16px;
-  }
-
-  .modal input,
-  .modal textarea {
-    margin-bottom: 16px;
   }
 }
 </style>

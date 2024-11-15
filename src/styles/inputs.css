@@ -1,0 +1,87 @@
+.app-input input {
+    height: 72px;
+}
+
+.app-input.error-visible input {
+    margin: 0;
+}
+
+.app-input input,
+.app-input textarea {
+    border-radius: 36px;
+    padding: 23px 28px;
+    display: flex;
+    box-sizing: border-box;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 156%;
+
+    max-width: 620px;
+    width: 100%;
+    border: 0;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: var(--dark);
+}
+
+.app-input input::placeholder,
+.app-input textarea::placeholder {
+    color: var(--grey);
+}
+
+.app-input textarea {
+    resize: none;
+}
+
+.app-input input:hover,
+.app-input textarea:hover,
+.app-input input:active,
+.app-input textarea:active,
+.app-input input:focus,
+.app-input textarea:focus {
+    outline: 2px solid var(--green-light);
+}
+
+.app-input input:last-child {
+    margin-bottom: 40px;
+}
+
+.app-input label {
+    color: var(--grey);
+    padding-left: 24px;
+}
+
+.input-counter {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+    padding: 0 24px;
+}
+
+.input-counter p {
+    color: var(--grey);
+    margin: 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 156%;
+}
+
+
+@media (max-width: 768px) {
+
+    .app-input input,
+    .app-input textarea {
+        margin-top: 8px;
+        margin-bottom: 24px;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .app-input input,
+    .app-input textarea {
+        margin-bottom: 16px;
+    }
+}

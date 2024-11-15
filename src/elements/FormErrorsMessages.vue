@@ -4,14 +4,14 @@ defineProps<{ errorsMessages: string[] }>()
 
 <template>
   <Transition>
-    <div v-show="errorsMessages.length" class="errors-msgs">
+    <div v-show="errorsMessages.length" class="form-errors-msgs">
       <p v-for="(er, i) in errorsMessages" :key="i">{{ er }}</p>
     </div>
   </Transition>
 </template>
 
 <style lang="css">
-.errors-msgs {
+.form-errors-msgs {
   margin-top: 20px;
   background-color: rgba(255, 116, 97, 0.1);
   color: var(--error);
@@ -19,7 +19,7 @@ defineProps<{ errorsMessages: string[] }>()
   padding: 8px 20px;
 }
 
-.errors-msgs p {
+.form-errors-msgs p {
   margin: 0;
 }
 </style>
