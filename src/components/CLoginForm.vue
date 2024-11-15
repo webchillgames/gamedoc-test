@@ -14,8 +14,8 @@ import FormErrorsMessages from '@/elements/FormErrorsMessages.vue'
 
 defineEmits(['showRegForm'])
 
-const _email = ref('rtyu@ghj.cow')
-const _password = ref('1234')
+const _email = ref('')
+const _password = ref('')
 const _error_messages = ref<string[]>([])
 
 const { updateUserInfo } = useUser()

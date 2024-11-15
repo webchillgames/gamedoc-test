@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onUnmounted, ref } from 'vue'
+import { ref } from 'vue'
 import { notes } from '@/services/notes'
 import { validations } from '@/utils/validations'
 
@@ -42,8 +42,6 @@ const v$ = useVuelidate(rules, {
   content: _content,
 })
 
-onUnmounted(clearFields)
-
 async function onSubmit() {
   if (v$.value.$invalid) {
     return
@@ -53,20 +51,20 @@ async function onSubmit() {
     await notes.create(_title.value, _content.value)
     await notes.get()
     emit('updateNotes')
-    clearFields()
   } catch (error) {
     _error_messages.value = getErrorMsg(error)
   }
 }
 
-function clearFields() {
+function reset() {
   _title.value = ''
   _content.value = ''
+  v$.value.$reset()
 }
 </script>
 
 <template>
-  <CModal class="note-editor">
+  <CModal class="note-editor" @closed="reset">
     <template v-slot:title>Добавление заметки</template>
 
     <template v-slot:form>
