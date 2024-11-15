@@ -56,27 +56,37 @@ function clearFields() {
 
     <template v-slot:form>
       <form @submit.prevent="onSubmit">
-        <label>Название заметки</label>
-        <input
-          v-model="v$.title.$model"
-          type="text"
-          placeholder="Введите название"
-          :maxlength="TITLE_MAX_LENGTH"
-        />
+        <div :class="{ 'error-visible': v$.title.$error }">
+          <label>Название заметки</label>
+          <input
+            v-model="v$.title.$model"
+            type="text"
+            placeholder="Введите название"
+            :maxlength="TITLE_MAX_LENGTH"
+          />
+          <div class="error-message">
+            <span v-for="(er, i) in v$.title.$errors" :key="i">{{ er.$message }}</span>
+          </div>
 
-        <div class="note-editor__wrapper note-editor__wrapper--counter">
-          <p>{{ v$.title.$model.length }} / {{ TITLE_MAX_LENGTH }}</p>
+          <div class="note-editor__wrapper note-editor__wrapper--counter">
+            <p>{{ v$.title.$model.length }} / {{ TITLE_MAX_LENGTH }}</p>
+          </div>
         </div>
 
-        <label>Текст заметки</label>
-        <textarea
-          v-model="v$.content.$model"
-          placeholder="Введите текст"
-          rows="7"
-          maxlength="CONTENT_MAX_LENGTH"
-        ></textarea>
-        <div class="note-editor__wrapper note-editor__wrapper--counter">
-          <p>{{ v$.content.$model.length }} / {{ CONTENT_MAX_LENGTH }}</p>
+        <div :class="{ 'error-visible': v$.content.$error }">
+          <label>Текст заметки</label>
+          <textarea
+            v-model="v$.content.$model"
+            placeholder="Введите текст"
+            rows="7"
+            maxlength="CONTENT_MAX_LENGTH"
+          ></textarea>
+          <div class="error-message">
+            <span v-for="(er, i) in v$.content.$errors" :key="i">{{ er.$message }}</span>
+          </div>
+          <div class="note-editor__wrapper note-editor__wrapper--counter">
+            <p>{{ v$.content.$model.length }} / {{ CONTENT_MAX_LENGTH }}</p>
+          </div>
         </div>
         <div class="note-editor__wrapper">
           <AppButton :disabled="v$.$invalid" class="accent-button" type="submit"

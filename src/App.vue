@@ -91,6 +91,19 @@ body {
   background-color: var(--grey);
 }
 
+.error-message {
+  color: #ff7461;
+}
+
+.error-visible .error-message {
+  padding: 8px 24px;
+  margin-bottom: 16px;
+}
+
+.error-visible input {
+  margin-bottom: 0;
+}
+
 @media (max-width: 1366px) {
   .app {
     max-width: 1205px;

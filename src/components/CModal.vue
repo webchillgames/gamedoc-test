@@ -72,6 +72,17 @@ defineEmits(['close'])
   color: var(--grey);
   max-width: 620px;
   width: 100%;
+  border: 0;
+  transition: all 0.2s;
+}
+
+.modal input:hover,
+.modal textarea:hover,
+.modal input:active,
+.modal textarea:active,
+.modal input:focus,
+.modal textarea:focus {
+  outline: 2px solid var(--green-light);
 }
 
 .modal input:last-child {
@@ -101,10 +112,12 @@ defineEmits(['close'])
   box-sizing: border-box;
   position: relative;
   margin: auto;
-  position: absolute;
+
+  /* position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  min-height: 100%; */
 }
 
 @media (max-width: 1366px) {

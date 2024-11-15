@@ -36,14 +36,29 @@ function onSubmit() {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <label>Email</label>
-    <input type="email" placeholder="Введите значение" v-model="v$.email.$model" />
+    <div :class="{ 'error-visible': v$.email.$error }">
+      <label>Email</label>
+      <input type="email" placeholder="Введите значение" v-model="v$.email.$model" />
+      <div class="error-message">
+        <span v-for="(er, i) in v$.email.$errors" :key="i">{{ er.$message }}</span>
+      </div>
+    </div>
 
-    <label>Пароль</label>
-    <input type="text" placeholder="Введите пароль" v-model="v$.password.$model" />
+    <div :class="{ 'error-visible': v$.password.$error }">
+      <label>Пароль</label>
+      <input type="text" placeholder="Введите пароль" v-model="v$.password.$model" />
+      <div class="error-message">
+        <span v-for="(er, i) in v$.password.$errors" :key="i">{{ er.$message }}</span>
+      </div>
+    </div>
 
-    <label>Пароль ещё раз</label>
-    <input type="text" placeholder="Введите пароль" v-model="v$.password_repeat.$model" />
+    <div :class="{ 'error-visible': v$.password_repeat.$error }">
+      <label>Пароль ещё раз</label>
+      <input type="text" placeholder="Введите пароль" v-model="v$.password_repeat.$model" />
+      <div class="error-message">
+        <span v-for="(er, i) in v$.password_repeat.$errors" :key="i">{{ er.$message }}</span>
+      </div>
+    </div>
 
     <div class="auth__controls">
       <div class="auth__form-changer">

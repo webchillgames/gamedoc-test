@@ -52,13 +52,22 @@ async function onSubmit() {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <label>Email</label>
+    <div :class="{ 'error-visible': v$.email.$error }">
+      <label>Email</label>
 
-    <input type="email" placeholder="Введите значение" v-model="v$.email.$model" />
+      <input type="email" placeholder="Введите значение" v-model="v$.email.$model" />
 
-    <label>Пароль</label>
-    <input type="text" placeholder="Введите пароль" v-model="v$.password.$model" />
-
+      <div class="error-message">
+        <span v-for="(er, i) in v$.email.$errors" :key="i">{{ er.$message }}</span>
+      </div>
+    </div>
+    <div :class="{ 'error-visible': v$.password.$error }">
+      <label>Пароль</label>
+      <input type="text" placeholder="Введите пароль" v-model="v$.password.$model" />
+      <div class="error-message">
+        <span v-for="(er, i) in v$.password.$errors" :key="i">{{ er.$message }}</span>
+      </div>
+    </div>
     <div class="auth__controls">
       <div class="auth__form-changer">
         <span> У вас нет аккаунта?</span>
