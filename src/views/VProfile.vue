@@ -53,12 +53,11 @@ async function updateNotes() {
   bottom: 40px;
   right: 40px;
   display: block;
-  background-image: url('@/assets/cross-icon.svg');
+  background-image: url('@/assets/plus-icon.svg');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   background-size: 16px 16px;
-  transform: rotate(45deg);
   box-shadow: 0 15px 46px -10px rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
@@ -67,6 +66,7 @@ async function updateNotes() {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
+  margin-top: 40px;
 }
 
 @media (max-width: 1366px) {
@@ -78,6 +78,12 @@ async function updateNotes() {
 @media (max-width: 768px) {
   .profile__notes-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile__notes-grid {
+    margin-top: 20px;
   }
 }
 </style>

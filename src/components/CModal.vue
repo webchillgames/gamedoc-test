@@ -16,7 +16,6 @@ defineEmits(['close'])
         <h2>
           <slot name="title"></slot>
         </h2>
-
         <AppButton @click="$emit('close')" class="modal__closer"></AppButton>
 
         <slot name="form"></slot>

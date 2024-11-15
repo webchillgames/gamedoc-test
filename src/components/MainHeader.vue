@@ -41,7 +41,9 @@ async function onExitClick() {
 
 <template>
   <div class="main-header">
-    <AppLogo />
+    <router-link :to="user ? '/profile' : '/'">
+      <AppLogo />
+    </router-link>
 
     <div v-if="user" class="main-header__exit-modal-wrapper">
       <AppButton
@@ -81,11 +83,15 @@ async function onExitClick() {
   width: 32px;
   height: 32px;
   display: block;
-  background-image: url('@/assets/auth-icon.svg');
+
+  background-image: url('@/assets/icons-sprite.svg');
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: 0 0;
   margin-right: 12px;
+
+  background-image: url('@/assets/auth-icon.svg');
+  background-size: contain;
 }
 
 .main-header__profile-button {

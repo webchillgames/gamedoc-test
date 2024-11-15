@@ -69,6 +69,11 @@ const _title = computed(() => {
   font-size: inherit;
   line-height: inherit;
   padding: 0;
+  transition: all 0.2s;
+}
+
+.auth__form-changer button:hover {
+  color: var(--white);
 }
 
 .auth__error-msg {

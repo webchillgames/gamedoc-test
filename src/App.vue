@@ -72,10 +72,23 @@ body {
   background-color: var(--green-light);
   border: 0;
   color: var(--white);
+  transition: all 0.2s;
+}
+
+.accent-button svg {
+  flex-shrink: 0;
+}
+
+.accent-button:hover {
+  background-color: var(--green-middle);
+}
+
+.accent-button:hover {
+  background-color: var(--green-dark);
 }
 
 .accent-button:disabled {
-  opacity: 0.4;
+  background-color: var(--grey);
 }
 
 @media (max-width: 1366px) {
