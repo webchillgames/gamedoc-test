@@ -79,15 +79,11 @@ function onExitClick() {
   width: 32px;
   height: 32px;
   display: block;
-
-  background-image: url('@/assets/icons-sprite.svg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: 0 0;
   margin-right: 12px;
-
   background-image: url('@/assets/auth-icon.svg');
-  background-size: contain;
 }
 
 .main-header__profile-button {

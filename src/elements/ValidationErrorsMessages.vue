@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-defineProps<{ errorsMessages: string[] }>()
+import type { ErrorObject } from '@vuelidate/core'
+
+defineProps<{ errorsMessages: ErrorObject[] }>()
 </script>
 
 <template>
