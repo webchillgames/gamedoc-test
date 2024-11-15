@@ -16,7 +16,7 @@ defineEmits(['close'])
         <h2>
           <slot name="title"></slot>
         </h2>
-        <AppButton @click="$emit('close')" class="modal__closer"></AppButton>
+        <AppButton @click="$emit('close')" class="modal__closer accent-button"></AppButton>
 
         <slot name="form"></slot>
       </div>
@@ -26,8 +26,7 @@ defineEmits(['close'])
 
 <style lang="css">
 .modal__overlay {
-  background: var(--dark);
-  opacity: 0.7;
+  background-color: rgba(10, 31, 56, 0.7);
 }
 
 .modal__closer {
@@ -69,12 +68,20 @@ defineEmits(['close'])
   font-weight: 400;
   font-size: 18px;
   line-height: 156%;
-  color: var(--grey);
+
   max-width: 620px;
   width: 100%;
   border: 0;
   transition: all 0.2s;
+  font-family: inherit;
+  color: var(--dark);
 }
+
+.modal input::placeholder,
+.modal textarea::placeholder {
+  color: var(--grey);
+}
+
 .modal textarea {
   resize: none;
 }

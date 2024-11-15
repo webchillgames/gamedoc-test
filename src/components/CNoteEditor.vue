@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { onUnmounted, ref } from 'vue'
-import { maxLength, minLength, required } from '@vuelidate/validators'
 import { notes } from '@/services/notes'
 
 import AppButton from '@/elements/AppButton.vue'
 import CModal from './CModal.vue'
 import useVuelidate from '@vuelidate/core'
+import { validations } from '@/utils/validations'
 
 const emit = defineEmits(['updateNotes'])
 
@@ -15,17 +15,23 @@ const CONTENT_MAX_LENGTH = 500
 const _title = ref('')
 const _content = ref('')
 
-const state = ref({
-  title: _title.value,
-  content: _content.value,
-})
-
 const rules = {
-  title: { required, minLength: minLength(1), maxLength: maxLength(TITLE_MAX_LENGTH) },
-  content: { required, minLength: minLength(1), maxLength: maxLength(CONTENT_MAX_LENGTH) },
+  title: {
+    required: validations.required,
+    minLength: validations.minLength(1),
+    maxLength: validations.maxLength(TITLE_MAX_LENGTH),
+  },
+  content: {
+    required: validations.required,
+    minLength: validations.minLength(1),
+    maxLength: validations.maxLength(CONTENT_MAX_LENGTH),
+  },
 }
 
-const v$ = useVuelidate(rules, state)
+const v$ = useVuelidate(rules, {
+  title: _title,
+  content: _content,
+})
 
 onUnmounted(clearFields)
 
@@ -35,7 +41,7 @@ async function onSubmit() {
   }
 
   try {
-    await notes.create(v$.value.title.$model, v$.value.content.$model)
+    await notes.create(_title.value, _content.value)
     await notes.get()
     emit('updateNotes')
     clearFields()
@@ -65,16 +71,17 @@ function clearFields() {
             :maxlength="TITLE_MAX_LENGTH"
           />
           <div class="error-message">
-            <span v-for="(er, i) in v$.title.$errors" :key="i">{{ er.$message }}</span>
+            <p v-for="(er, i) in v$.title.$errors" :key="i">{{ er.$message }}</p>
           </div>
 
           <div class="note-editor__wrapper note-editor__wrapper--counter">
-            <p>{{ v$.title.$model.length }} / {{ TITLE_MAX_LENGTH }}</p>
+            <p>{{ _title.length }} / {{ TITLE_MAX_LENGTH }}</p>
           </div>
         </div>
 
         <div :class="{ 'error-visible': v$.content.$error }">
           <label>Текст заметки</label>
+          <!-- @vue-expect-error конфликт vuelidate и vue-ts -->
           <textarea
             v-model="v$.content.$model"
             placeholder="Введите текст"
@@ -82,10 +89,10 @@ function clearFields() {
             maxlength="CONTENT_MAX_LENGTH"
           ></textarea>
           <div class="error-message">
-            <span v-for="(er, i) in v$.content.$errors" :key="i">{{ er.$message }}</span>
+            <p v-for="(er, i) in v$.content.$errors" :key="i">{{ er.$message }}</p>
           </div>
           <div class="note-editor__wrapper note-editor__wrapper--counter">
-            <p>{{ v$.content.$model.length }} / {{ CONTENT_MAX_LENGTH }}</p>
+            <p>{{ _content.length }} / {{ CONTENT_MAX_LENGTH }}</p>
           </div>
         </div>
         <div class="note-editor__wrapper">

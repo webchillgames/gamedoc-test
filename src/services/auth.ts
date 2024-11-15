@@ -1,11 +1,16 @@
+import type { AxiosResponse } from 'axios'
 import { httpService, type IHTTPService, type IUserToken } from './http'
 import { storage, type IStorageService } from './storage'
 import router from '@/router/index'
 
 interface IAuthService {
   hasSavedSession: boolean
-  login(email: string, password: string): void
-  register(email: string, password: string, confirm_password: string): void
+  login(email: string, password: string): Promise<void>
+  register(
+    email: string,
+    password: string,
+    confirm_password: string,
+  ): Promise<AxiosResponse<unknown, unknown>>
   logout(): void
 }
 
@@ -41,4 +46,4 @@ class AuthService implements IAuthService {
   }
 }
 
-export const auth = new AuthService(httpService, storage)
+export const auth: IAuthService = new AuthService(httpService, storage)

@@ -8,9 +8,9 @@ export type Note = {
 }
 
 interface INoteService {
-  create(title: string, text: string): void
+  create(title: string, text: string): Promise<AxiosResponse<unknown>>
   get(): Promise<AxiosResponse<Note[]>>
-  remove(id: number): void
+  remove(id: number): Promise<AxiosResponse<unknown>>
 }
 
 class NoteService implements INoteService {
@@ -31,4 +31,4 @@ class NoteService implements INoteService {
   }
 }
 
-export const notes = new NoteService(httpService)
+export const notes: INoteService = new NoteService(httpService)

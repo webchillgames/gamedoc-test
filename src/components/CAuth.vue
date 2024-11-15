@@ -84,6 +84,10 @@ const _title = computed(() => {
   padding: 8px 20px;
 }
 
+.auth__error-msg p {
+  margin: 0;
+}
+
 @media (max-width: 1366px) {
   .auth__form-changer {
     grid-template-columns: 1fr;

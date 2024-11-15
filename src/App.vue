@@ -39,6 +39,11 @@ html,
   height: 100%;
 }
 
+button,
+a {
+  cursor: pointer;
+}
+
 body {
   background-color: var(--dark);
   font-family: var(--font-family);
@@ -83,7 +88,7 @@ body {
   background-color: var(--green-middle);
 }
 
-.accent-button:hover {
+.accent-button:active {
   background-color: var(--green-dark);
 }
 
@@ -100,8 +105,39 @@ body {
   margin-bottom: 16px;
 }
 
-.error-visible input {
+.error-message p {
+  margin: 0;
+}
+
+.error-visible input,
+.error-visible .custom-input input {
   margin-bottom: 0;
+}
+
+.custom-input {
+  position: relative;
+}
+
+.custom-input button {
+  position: absolute;
+  background-size: 18px 14px;
+  background-position: center;
+  height: 100%;
+  background-repeat: no-repeat;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 80px;
+  padding: 0;
+  transition: all 0.2s;
+}
+
+.custom-input--password button {
+  background-image: url('@/assets/closed-eye.svg');
+}
+
+.custom-input--password-visible button {
+  background-image: url('@/assets/opened-eye.svg');
 }
 
 @media (max-width: 1366px) {

@@ -24,4 +24,4 @@ class StorageService implements IStorageService {
   }
 }
 
-export const storage = new StorageService(window.localStorage)
+export const storage: IStorageService = new StorageService(window.localStorage)
